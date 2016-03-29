@@ -31,9 +31,9 @@ import twitter4j.auth.AccessToken;
 public class TwitterOAuthActivity extends Activity implements TwitterOAuthView.Listener
 {
     // Replace values of the parameters below with your own.
-    private static final String CONSUMER_KEY = "Y0o3xqyJuiVsVLMjie8aEvW8a";
-    private static final String CONSUMER_SECRET = "secret";
-    private static final String CALLBACK_URL = "http://google.com";
+    private static final String CONSUMER_KEY = "cvdZx83aZX3n8Ox6U6dvhjJ77";
+    private static final String CONSUMER_SECRET = "IXvdcDg8W5Q0gAig9IC1ltWzJHsdpAqq2xkongJnDoRJoxS0eB";
+    private static final String CALLBACK_URL = "";
     private static final boolean DUMMY_CALLBACK_URL = true;
 
 
