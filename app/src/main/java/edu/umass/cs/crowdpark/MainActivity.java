@@ -8,12 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.firebase.client.Firebase;
+
 public class MainActivity extends AppCompatActivity {
 
     SharedPreferences pref;
 
-    private static String CONSUMER_KEY = "F7Tl8sIkNMG3H934DmarGYDeR";
-    private static String CONSUMER_SECRET = "0d135YCg2a3Go73GJ4ab9WP9T9CFEWKo8rErmaIZauo6cufY1g";
+    private static String CONSUMER_KEY = "cvdZx83aZX3n8Ox6U6dvhjJ77";
+    private static String CONSUMER_SECRET = "IXvdcDg8W5Q0gAig9IC1ltWzJHsdpAqq2xkongJnDoRJoxS0eB";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
         edit.putString("CONSUMER_KEY", CONSUMER_KEY);
         edit.putString("CONSUMER_SECRET", CONSUMER_SECRET);
         edit.commit();
+
+        //Firebase stuff
+        Firebase.setAndroidContext(this);
+        Firebase myFirebaseRef = new Firebase("https://burning-fire-7390.firebaseio.com/");
 
         Fragment login = new LoginFragment();
         FragmentTransaction ft = getFragmentManager().beginTransaction();

@@ -36,6 +36,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+
 import java.io.InputStream;
 import java.net.URL;
 
@@ -63,6 +65,9 @@ public class ProfileFragment extends Fragment {
     ProgressDialog progress;
     Dialog tDialog;
     String tweetText;
+
+    Firebase myFirebaseRef;
+
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle args) {
         View view = inflater.inflate(R.layout.profile_fragment, container, false);
@@ -74,6 +79,10 @@ public class ProfileFragment extends Fragment {
         signout.setOnClickListener(new SignOut());
         tweet.setOnClickListener(new Tweet());
         new LoadProfile().execute();
+
+        myFirebaseRef = new Firebase("https://burning-fire-7390.firebaseio.com/");
+        myFirebaseRef.child("message").setValue("Database connection and write to profile successful");
+
         return view;
     }
     private class SignOut implements View.OnClickListener {
@@ -81,6 +90,10 @@ public class ProfileFragment extends Fragment {
         @Override
         public void onClick(View arg0) {
             // TODO Auto-generated method stub
+
+
+            myFirebaseRef.child("message").setValue("Database connection and write to profile successful");
+
             SharedPreferences.Editor edit = pref.edit();
             edit.putString("ACCESS_TOKEN", "");
             edit.putString("ACCESS_TOKEN_SECRET", "");
