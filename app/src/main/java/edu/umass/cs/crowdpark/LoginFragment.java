@@ -19,6 +19,9 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.List;
+
+import twitter4j.QueryResult;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -161,6 +164,16 @@ public class LoginFragment extends Fragment {
                 profile_url = user.getOriginalProfileImageURL();
                 edit.putString("NAME", user.getName());
                 edit.putString("IMAGE_URL", user.getOriginalProfileImageURL());
+
+                //Testing if querying works
+                QueryResult result = twitter.search(new twitter4j.Query("#crowdpark"));
+                List<twitter4j.Status> tweets = result.getTweets();
+
+                for (twitter4j.Status status: tweets) {
+                    Log.v("poop", status.getText() + "Date: " +  status.getCreatedAt());
+                }
+                //End of querying
+
 
                 edit.commit();
 
