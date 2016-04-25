@@ -43,7 +43,7 @@ import twitter4j.conf.ConfigurationBuilder;
  * Use the {@link DashboardFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DashboardFragment extends Fragment {
+public class DashboardFragment extends android.support.v4.app.Fragment {
     TextView prof_name;
     SharedPreferences pref;
     Bitmap bitmap;
@@ -184,17 +184,17 @@ public class DashboardFragment extends Fragment {
             return bitmap;
         }
         protected void onPostExecute(Bitmap image) {
-            Bitmap image_circle = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-
-            BitmapShader shader = new BitmapShader (bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-            Paint paint = new Paint();
-            paint.setShader(shader);
-            Canvas c = new Canvas(image_circle);
-            c.drawCircle(image.getWidth()/2, image.getHeight()/2, image.getWidth()/2, paint);
-            prof_img.setImageBitmap(image_circle);
-            prof_name.setText("Welcome " +pref.getString("NAME", ""));
-
-            progress.hide();
+//            Bitmap image_circle = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+//
+//            BitmapShader shader = new BitmapShader (bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+//            Paint paint = new Paint();
+//            paint.setShader(shader);
+//            Canvas c = new Canvas(image_circle);
+//            c.drawCircle(image.getWidth()/2, image.getHeight()/2, image.getWidth()/2, paint);
+//            prof_img.setImageBitmap(image_circle);
+//            prof_name.setText("Welcome " +pref.getString("NAME", ""));
+//
+//            progress.hide();
 
         }
     }
