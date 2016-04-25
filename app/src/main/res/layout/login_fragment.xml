@@ -5,14 +5,25 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:id="@+id/login_fragment"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="#02acee">
 
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Welcome to \n CrowdPark"
+        android:textAlignment="center"
+        android:id="@+id/welcome"
+        android:textSize="50dp"
+        android:layout_marginBottom="70dp"
+        android:textColor="#ffffff" />
 
     <ImageView
         android:id="@+id/login"
         android:layout_width="322dp"
         android:layout_height="80dp"
-        android:layout_gravity="center"
         android:src="@drawable/login_button" />
 
 </LinearLayout>
