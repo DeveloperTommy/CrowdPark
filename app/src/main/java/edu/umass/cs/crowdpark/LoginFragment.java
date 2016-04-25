@@ -2,8 +2,8 @@ package edu.umass.cs.crowdpark;
 
 import android.app.Dialog;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -191,12 +191,15 @@ public class LoginFragment extends Fragment {
         protected void onPostExecute(Boolean response) {
             if(response){
                 progress.hide();
-                Fragment profile = new DashboardFragment();
+                Intent intent = new Intent(getActivity(), DashboardActivity.class);
+                startActivity(intent);
+
+                /*Fragment profile = new DashboardFragment();
                 FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
                 ft.replace(R.id.content_frame, profile);
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 ft.addToBackStack(null);
-                ft.commit();
+                ft.commit();*/
 
             }
         }
