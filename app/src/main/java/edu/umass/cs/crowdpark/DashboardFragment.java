@@ -1,6 +1,5 @@
 package edu.umass.cs.crowdpark;
 
-import android.app.ActionBar;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -14,6 +13,7 @@ import android.graphics.Paint;
 import android.graphics.Shader;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
