@@ -29,6 +29,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     protected LocationListener locationListener;
     private Location currentLocation;
 
+    private static final String[] LOCATION_PERMS={
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,12 +49,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         if (locationManager != null) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                     || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                locationManager.removeUpdates(this);
+                //locationManager.removeUpdates(this);
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
                 Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 double longitude = location.getLongitude();
                 double latitude = location.getLatitude();
-                Log.v("location", "Latitude:" + currentLocation.getLatitude() + ", Longitude:" + currentLocation.getLongitude());
+                Log.v("Hello", "Latitude:" + latitude + ", Longitude:" + longitude);
+            }
+            else {
+                requestPermissions(LOCATION_PERMS, 1337);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                double longitude = location.getLongitude();
+                double latitude = location.getLatitude();
+                Log.v("Hello", "Latitude:" + currentLocation.getLatitude() + ", Longitude:" + currentLocation.getLongitude());
             }
         }
 
