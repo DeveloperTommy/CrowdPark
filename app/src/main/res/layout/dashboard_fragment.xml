@@ -85,4 +85,9 @@
         android:src="@drawable/signout_button"
         android:layout_gravity="center" />
 
+    <ImageView
+            android:id="@+id/prof_image"
+            android:layout_width="30px"
+            android:layout_height="30px"/>
+
 </LinearLayout>

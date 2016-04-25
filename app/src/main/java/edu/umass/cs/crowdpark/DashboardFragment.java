@@ -1,5 +1,6 @@
 package edu.umass.cs.crowdpark;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -18,7 +19,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,6 +29,7 @@ import com.firebase.client.Firebase;
 import java.io.InputStream;
 import java.net.URL;
 
+import edu.umass.cs.crowdpark.util.TweetUtil;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -71,10 +72,6 @@ public class DashboardFragment extends android.support.v4.app.Fragment {
         myFirebaseRef = new Firebase("https://burning-fire-7390.firebaseio.com/");
         myFirebaseRef.child("message").setValue("Database connection and write to profile successful");
 
-        Log.v("Hello", "Key" + pref.getString("CONSUMER_KEY", ""));
-        Log.v("Hello", "Secret: " + pref.getString("CONSUMER_SECRET", ""));
-        Log.v("Hello", "Secret: " + pref.getString("IMAGE_URL", ""));
-
         return view;
     }
     private class SignOut implements View.OnClickListener {
@@ -103,6 +100,7 @@ public class DashboardFragment extends android.support.v4.app.Fragment {
         @Override
         public void onClick(View v) {
             // TODO Auto-generated method stub
+            /*
             tDialog = new Dialog(getActivity());
             tDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             tDialog.setContentView(R.layout.tweet_dialog);
@@ -118,6 +116,9 @@ public class DashboardFragment extends android.support.v4.app.Fragment {
             });
 
             tDialog.show();
+            */
+
+            new PostTweet().execute();
 
 
         }}
@@ -130,7 +131,26 @@ public class DashboardFragment extends android.support.v4.app.Fragment {
             progress.setMessage("Posting tweet ...");
             progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progress.setIndeterminate(true);
-            tweetText = tweet_text.getText().toString();
+
+            Activity currActivity = getActivity();
+
+            String zip = ((EditText) currActivity.findViewById(R.id.zip_text)).getText().toString();
+            String spaces = ((EditText) currActivity.findViewById(R.id.spaces_text)).getText().toString();
+            String cost = ((EditText) currActivity.findViewById(R.id.cost_text)).getText().toString();
+            String open = ((EditText) currActivity.findViewById(R.id.open_text)).getText().toString();
+            String close = ((EditText) currActivity.findViewById(R.id.closing_text)).getText().toString();
+            String type = "";
+
+            String lat = pref.getString("LATITUDE", "");
+            String lon = pref.getString("LONGITUDE", "");
+
+
+//            double lat = Double.parseDouble(pref.getString("LATITUDE", ""));
+//            double lon = Double.parseDouble(pref.getString("LONGITUDE", ""));
+
+
+            //tweetText = tweet_text.getText().toString();
+            tweetText = TweetUtil.createTweet(zip, spaces, cost, open, close, type, lat, lon);
             progress.show();
 
         }
@@ -142,17 +162,20 @@ public class DashboardFragment extends android.support.v4.app.Fragment {
 
             Log.v("Hello", "Key" + pref.getString("CONSUMER_KEY", ""));
             Log.v("Hello", "Secret " + pref.getString("CONSUMER_SECRET", ""));
-            Log.v("Hello", "Secret " + pref.getString("CONSUMER_SECRET", ""));
 
             AccessToken accessToken = new AccessToken(pref.getString("ACCESS_TOKEN", ""), pref.getString("ACCESS_TOKEN_SECRET", ""));
             Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
 
+            Log.v("Hello", "" + tweetText.length());
+
             try {
                 twitter4j.Status response = twitter.updateStatus(tweetText);
+                Log.v("Hello", response.getText());
                 return response.toString();
             } catch (TwitterException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+                Log.v("Hello", e.toString());
             }
 
 
@@ -162,11 +185,11 @@ public class DashboardFragment extends android.support.v4.app.Fragment {
             if(res != null){
                 progress.dismiss();
                 Toast.makeText(getActivity(), "Tweet Sucessfully Posted", Toast.LENGTH_SHORT).show();
-                tDialog.dismiss();
+//                tDialog.dismiss();
             }else{
                 progress.dismiss();
                 Toast.makeText(getActivity(), "Error while tweeting !", Toast.LENGTH_SHORT).show();
-                tDialog.dismiss();
+//                tDialog.dismiss();
             }
 
         }

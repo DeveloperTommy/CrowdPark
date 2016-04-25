@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         SharedPreferences.Editor edit = pref.edit();
         edit.putString("CONSUMER_KEY", CONSUMER_KEY);
         edit.putString("CONSUMER_SECRET", CONSUMER_SECRET);
-        edit.commit();
+
 
         //Location stuff
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
                 Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 double longitude = location.getLongitude();
                 double latitude = location.getLatitude();
+                edit.putString("LATITUDE", "" + latitude);
+                edit.putString("LONGITUDE", "" + longitude);
                 Log.v("Hello", "Latitude:" + latitude + ", Longitude:" + longitude);
             }
             else {
@@ -63,9 +65,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
                 Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 double longitude = location.getLongitude();
                 double latitude = location.getLatitude();
+                edit.putString("LATITUDE", "" + latitude);
+                edit.putString("LONGITUDE", "" + longitude);
                 Log.v("Hello", "Latitude:" + currentLocation.getLatitude() + ", Longitude:" + currentLocation.getLongitude());
             }
         }
+
+        edit.commit();
 
         //Firebase stuff
         Firebase.setAndroidContext(this);
