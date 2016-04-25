@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -155,6 +157,27 @@ public class FindParkingTabFragment extends Fragment {
 
 
             Log.v("Hello", "Size of valid: " + valid.size());
+
+            //Merge sort by distance
+            Collections.sort(valid, new Comparator<String>() {
+                @Override
+                public int compare(String lhs, String rhs) {
+                    String[] left = TweetUtil.parseTweet(lhs);
+                    String[] right = TweetUtil.parseTweet(rhs);
+
+                    double leftLat = Double.parseDouble(left[TweetUtil.LAT]);
+                    double leftLon = Double.parseDouble(left[TweetUtil.LON]);
+
+                    double rightLat = Double.parseDouble(right[TweetUtil.LAT]);
+                    double rightLon = Double.parseDouble(right[TweetUtil.LON]);
+
+                    Double leftDistance = LocationUtil.distance(leftLat, latitude, leftLon, longitude, 0, 0);
+                    Double rightDistance = LocationUtil.distance(rightLat, latitude, rightLon, longitude, 0, 0);
+
+                    return leftDistance.compareTo(rightDistance);
+
+                }
+            });
 
             return valid;
         }
