@@ -1,8 +1,6 @@
 package edu.umass.cs.crowdpark;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -59,12 +57,12 @@ public class FindParkingTabFragment extends Fragment {
 
         pref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
 
-        latitude = Double.parseDouble(pref.getString("LATITUDE", ""));
-        longitude = Double.parseDouble(pref.getString("LONGITUDE", ""));
+//        latitude = Double.parseDouble(pref.getString("LATITUDE", ""));
+  //      longitude = Double.parseDouble(pref.getString("LONGITUDE", ""));
 
         Button mapsButton = (Button) view.findViewById(R.id.locationButton);
 
-        if (mapsButton != null) {
+       /* if (mapsButton != null) {
             mapsButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -73,7 +71,7 @@ public class FindParkingTabFragment extends Fragment {
                     getActivity().startActivity(intent);
                 }
             });
-        }
+        }*/
 
         //List Adapter
         ListView listView=(ListView) view.findViewById(R.id.listView);

@@ -13,7 +13,7 @@ import android.widget.Button;
 
 public class DashboardActivity extends AppCompatActivity {
 
-    double latitude, longitude;
+   double latitude, longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
