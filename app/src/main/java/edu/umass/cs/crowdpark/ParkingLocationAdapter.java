@@ -21,6 +21,7 @@ public class ParkingLocationAdapter extends BaseAdapter {
     public static final String FOURTH_COLUMN="Fourth";
     public static final String FIFTH_COLUMN="Fifth";
     public static final String SIXTH_COLUMN="Sixth";
+    public static final String SEVENTH_COLUMN="Seventh";
 
 
     public ArrayList<HashMap<String, String>> list;
@@ -30,6 +31,8 @@ public class ParkingLocationAdapter extends BaseAdapter {
     TextView txtThird;
     TextView txtFourth;
     TextView txtFifth;
+    TextView txtSixth;
+    TextView txtSeventh;
 
     public ParkingLocationAdapter(Activity activity,ArrayList<HashMap<String, String>> list){
         super();
@@ -65,6 +68,8 @@ public class ParkingLocationAdapter extends BaseAdapter {
             txtThird = (TextView) convertView.findViewById(R.id.cost);
             txtFourth = (TextView) convertView.findViewById(R.id.space);
             txtFifth = (TextView) convertView.findViewById(R.id.time);
+            txtSixth = (TextView) convertView.findViewById(R.id.lat);
+            txtSeventh = (TextView) convertView.findViewById(R.id.lon);
 
         }
 
@@ -74,6 +79,8 @@ public class ParkingLocationAdapter extends BaseAdapter {
         txtThird.setText(map.get(THIRD_COLUMN));
         txtFourth.setText(map.get(FOURTH_COLUMN));
         txtFifth.setText(map.get(FIFTH_COLUMN));
+        txtSixth.setText(map.get(SIXTH_COLUMN));
+        txtSeventh.setText(map.get(SEVENTH_COLUMN));
 
         return convertView;
     }

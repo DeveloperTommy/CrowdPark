@@ -1,6 +1,8 @@
 package edu.umass.cs.crowdpark;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -12,11 +14,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import edu.umass.cs.crowdpark.util.LocationUtil;
 import edu.umass.cs.crowdpark.util.TweetUtil;
 import twitter4j.QueryResult;
 import twitter4j.Twitter;
@@ -38,6 +45,7 @@ public class FindParkingTabFragment extends Fragment {
     public static final String FOURTH_COLUMN="Fourth";
     public static final String FIFTH_COLUMN="Fifth";
     public static final String SIXTH_COLUMN="Sixth";
+    public static final String SEVENTH_COLUMN="Seventh";
 
     //Adapter list
     private ArrayList<HashMap<String, String>> list;
@@ -57,12 +65,12 @@ public class FindParkingTabFragment extends Fragment {
 
         pref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
 
-//        latitude = Double.parseDouble(pref.getString("LATITUDE", ""));
-  //      longitude = Double.parseDouble(pref.getString("LONGITUDE", ""));
+        latitude = Double.parseDouble(pref.getString("LATITUDE", ""));
+        longitude = Double.parseDouble(pref.getString("LONGITUDE", ""));
 
         Button mapsButton = (Button) view.findViewById(R.id.locationButton);
 
-       /* if (mapsButton != null) {
+        if (mapsButton != null) {
             mapsButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -71,44 +79,20 @@ public class FindParkingTabFragment extends Fragment {
                     getActivity().startActivity(intent);
                 }
             });
-        }*/
+        }
 
         //List Adapter
         ListView listView=(ListView) view.findViewById(R.id.listView);
 
-        list=new ArrayList<HashMap<String,String>>();
+        list = new ArrayList<HashMap<String,String>>();
 
         HashMap<String,String> categories = new HashMap<String, String>();
-        categories.put(FIRST_COLUMN, "Distance");
+        categories.put(FIRST_COLUMN, "Distance (Meters)");
         categories.put(SECOND_COLUMN, "Name");
         categories.put(THIRD_COLUMN, "Cost $");
         categories.put(FOURTH_COLUMN, "Spaces");
         categories.put(FIFTH_COLUMN, "Operating Times");
         list.add(categories);
-
-        HashMap<String,String> temp=new HashMap<String, String>();
-        temp.put(FIRST_COLUMN, "Ankit Karia");
-        temp.put(SECOND_COLUMN, "Male");
-        temp.put(THIRD_COLUMN, "22");
-        temp.put(FOURTH_COLUMN, "Unmarried");
-        temp.put(FIFTH_COLUMN, "Time");
-        list.add(temp);
-
-        HashMap<String,String> temp2=new HashMap<String, String>();
-        temp2.put(FIRST_COLUMN, "Rajat Ghai");
-        temp2.put(SECOND_COLUMN, "Male");
-        temp2.put(THIRD_COLUMN, "25");
-        temp2.put(FOURTH_COLUMN, "Unmarried");
-        temp2.put(FIFTH_COLUMN, "Time");
-        list.add(temp2);
-
-        HashMap<String,String> temp3=new HashMap<String, String>();
-        temp3.put(FIRST_COLUMN, "Karina Kaif");
-        temp3.put(SECOND_COLUMN, "Female");
-        temp3.put(THIRD_COLUMN, "31");
-        temp3.put(FOURTH_COLUMN, "Unmarried");
-        temp3.put(FIFTH_COLUMN, "Time");
-        list.add(temp3);
 
         ParkingLocationAdapter adapter = new ParkingLocationAdapter(getActivity(), list);
         listView.setAdapter(adapter);
@@ -119,6 +103,11 @@ public class FindParkingTabFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id)
             {
                 Log.v("Hello", "clicked");
+                Log.v("Hello", "" + ((TextView) view.findViewById(R.id.lat)).getText());
+                String uri = "geo:" + ((TextView) view.findViewById(R.id.lat)).getText() + "," + ((TextView) view.findViewById(R.id.lon)).getText()
+                            + "?q=" + ((TextView) view.findViewById(R.id.lat)).getText() + "," + ((TextView) view.findViewById(R.id.lon)).getText() + "(Parking Location)";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                getActivity().startActivity(intent);
             }
 
         });
@@ -156,6 +145,7 @@ public class FindParkingTabFragment extends Fragment {
 
                     if (curr != null) {
                         valid.add(status.getText());
+                        Log.v("Hello", "Valid Tweet added");
                     }
 
                 }
@@ -164,6 +154,30 @@ public class FindParkingTabFragment extends Fragment {
             catch (TwitterException e) {
                 Log.e("Hello", e.toString());
             }
+
+
+            Log.v("Hello", "Size of valid: " + valid.size());
+
+            //Merge sort by distance
+            Collections.sort(valid, new Comparator<String>() {
+                @Override
+                public int compare(String lhs, String rhs) {
+                    String[] left = TweetUtil.parseTweet(lhs);
+                    String[] right = TweetUtil.parseTweet(rhs);
+
+                    double leftLat = Double.parseDouble(left[TweetUtil.LAT]);
+                    double leftLon = Double.parseDouble(left[TweetUtil.LON]);
+
+                    double rightLat = Double.parseDouble(right[TweetUtil.LAT]);
+                    double rightLon = Double.parseDouble(right[TweetUtil.LON]);
+
+                    Double leftDistance = LocationUtil.distance(leftLat, latitude, leftLon, longitude, 0, 0);
+                    Double rightDistance = LocationUtil.distance(rightLat, latitude, rightLon, longitude, 0, 0);
+
+                    return leftDistance.compareTo(rightDistance);
+
+                }
+            });
 
             return valid;
         }
@@ -174,7 +188,29 @@ public class FindParkingTabFragment extends Fragment {
 
             for (String tweet: response) {
                 Log.v("Hello", tweet);
+
+                String[] result = TweetUtil.parseTweet(tweet);
+
+                double lat = Double.parseDouble(result[TweetUtil.LAT]);
+                double lon = Double.parseDouble(result[TweetUtil.LON]);
+
+                double distance = LocationUtil.distance(lat, latitude, lon, longitude, 0, 0);
+
+                DecimalFormat df = new DecimalFormat("#.###");
+
+                HashMap<String,String> temp = new HashMap<String, String>();
+                temp.put(FIRST_COLUMN, df.format(distance) + "m");
+                temp.put(SECOND_COLUMN, result[TweetUtil.NAME]);
+                temp.put(THIRD_COLUMN, result[TweetUtil.COST]);
+                temp.put(FOURTH_COLUMN, result[TweetUtil.SPACE]);
+                temp.put(FIFTH_COLUMN, result[TweetUtil.OPEN] + " to " + result[TweetUtil.CLOSE]);
+                temp.put(SIXTH_COLUMN, "" + lat);
+                temp.put(SEVENTH_COLUMN, "" + lon);
+                list.add(temp);
+
             }
+
+            Log.v("Hello", "End of valid Tweets: \n");
 
 
         }
