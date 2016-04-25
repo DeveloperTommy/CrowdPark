@@ -26,8 +26,8 @@ public class DashboardActivity extends AppCompatActivity {
         //Get GPS to Google Maps
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        latitude = Double.parseDouble(pref.getString("LATITUDE", ""));
-        longitude = Double.parseDouble(pref.getString("LONGITUDE", ""));
+       // latitude = Double.parseDouble(pref.getString("LATITUDE", ""));
+       // longitude = Double.parseDouble(pref.getString("LONGITUDE", ""));
 
         Button mapsButton = (Button) findViewById(R.id.locationButton);
 
