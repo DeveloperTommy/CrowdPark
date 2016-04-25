@@ -168,6 +168,10 @@ public class DashboardFragment extends android.support.v4.app.Fragment {
 
             Log.v("Hello", "" + tweetText.length());
 
+            if (tweetText.length() > 140) {
+                Toast.makeText(getActivity(), "Too many characters to tweet!", Toast.LENGTH_SHORT).show();
+            }
+
             try {
                 twitter4j.Status response = twitter.updateStatus(tweetText);
                 Log.v("Hello", response.getText());
