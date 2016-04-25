@@ -13,7 +13,8 @@ import android.graphics.Paint;
 import android.graphics.Shader;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +60,7 @@ public class DashboardFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle args) {
         View view = inflater.inflate(R.layout.dashboard_fragment, container, false);
         prof_name = (TextView)view.findViewById(R.id.prof_name);
-        pref = getActivity().getPreferences(0);
+        pref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
         prof_img = (ImageView)view.findViewById(R.id.prof_image);
         tweet = (ImageView)view.findViewById(R.id.tweet);
         signout = (ImageView)view.findViewById(R.id.signout);
@@ -69,6 +70,10 @@ public class DashboardFragment extends android.support.v4.app.Fragment {
 
         myFirebaseRef = new Firebase("https://burning-fire-7390.firebaseio.com/");
         myFirebaseRef.child("message").setValue("Database connection and write to profile successful");
+
+        Log.v("Hello", "Key" + pref.getString("CONSUMER_KEY", ""));
+        Log.v("Hello", "Secret: " + pref.getString("CONSUMER_SECRET", ""));
+        Log.v("Hello", "Secret: " + pref.getString("IMAGE_URL", ""));
 
         return view;
     }
@@ -135,7 +140,9 @@ public class DashboardFragment extends android.support.v4.app.Fragment {
             builder.setOAuthConsumerKey(pref.getString("CONSUMER_KEY", ""));
             builder.setOAuthConsumerSecret(pref.getString("CONSUMER_SECRET", ""));
 
-
+            Log.v("Hello", "Key" + pref.getString("CONSUMER_KEY", ""));
+            Log.v("Hello", "Secret " + pref.getString("CONSUMER_SECRET", ""));
+            Log.v("Hello", "Secret " + pref.getString("CONSUMER_SECRET", ""));
 
             AccessToken accessToken = new AccessToken(pref.getString("ACCESS_TOKEN", ""), pref.getString("ACCESS_TOKEN_SECRET", ""));
             Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
@@ -184,17 +191,19 @@ public class DashboardFragment extends android.support.v4.app.Fragment {
             return bitmap;
         }
         protected void onPostExecute(Bitmap image) {
-//            Bitmap image_circle = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-//
-//            BitmapShader shader = new BitmapShader (bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-//            Paint paint = new Paint();
-//            paint.setShader(shader);
-//            Canvas c = new Canvas(image_circle);
-//            c.drawCircle(image.getWidth()/2, image.getHeight()/2, image.getWidth()/2, paint);
-//            prof_img.setImageBitmap(image_circle);
-//            prof_name.setText("Welcome " +pref.getString("NAME", ""));
-//
-//            progress.hide();
+            if (bitmap != null) {
+                Bitmap image_circle = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+
+                BitmapShader shader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+                Paint paint = new Paint();
+                paint.setShader(shader);
+                Canvas c = new Canvas(image_circle);
+                c.drawCircle(image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, paint);
+                prof_img.setImageBitmap(image_circle);
+                prof_name.setText("Welcome " + pref.getString("NAME", ""));
+            }
+
+            progress.hide();
 
         }
     }
