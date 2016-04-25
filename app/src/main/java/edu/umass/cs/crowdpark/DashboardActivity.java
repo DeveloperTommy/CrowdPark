@@ -1,14 +1,19 @@
 package edu.umass.cs.crowdpark;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.support.design.widget.TabLayout;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 public class DashboardActivity extends AppCompatActivity {
+
+    double latitude, longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +22,15 @@ public class DashboardActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //Get GPS to Google Maps
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        latitude = Double.parseDouble(pref.getString("LATITUDE", ""));
+        longitude = Double.parseDouble(pref.getString("LONGITUDE", ""));
+
+        Button mapsButton = (Button) findViewById(R.id.locationButton);
+
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Find Parking"));

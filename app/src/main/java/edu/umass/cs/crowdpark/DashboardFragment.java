@@ -160,9 +160,6 @@ public class DashboardFragment extends android.support.v4.app.Fragment {
             builder.setOAuthConsumerKey(pref.getString("CONSUMER_KEY", ""));
             builder.setOAuthConsumerSecret(pref.getString("CONSUMER_SECRET", ""));
 
-            Log.v("Hello", "Key" + pref.getString("CONSUMER_KEY", ""));
-            Log.v("Hello", "Secret " + pref.getString("CONSUMER_SECRET", ""));
-
             AccessToken accessToken = new AccessToken(pref.getString("ACCESS_TOKEN", ""), pref.getString("ACCESS_TOKEN_SECRET", ""));
             Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
 

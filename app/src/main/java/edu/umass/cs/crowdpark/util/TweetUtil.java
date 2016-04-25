@@ -13,7 +13,7 @@ public class TweetUtil {
         String [] parkingData;
         parkingData = tweet.split("-");
         String [] newData = new String[parkingData.length - 1];
-        String [] dataNames = {"#crowdpark", "Lat", "Lon", "Zip", "Spaces", "Cost", "Opening_Time", "Closing_Time", "Type"};
+        String [] dataNames = {"#crowdpark", "Lat", "Lon", "Zip", "Spaces", "Cost", "Open", "Close", "Type"};
 
         for(int i = 0; i< parkingData.length; i++){
             String [] currentSplit = parkingData[i].split(":");
@@ -42,7 +42,7 @@ public class TweetUtil {
 
     public static String createTweet(String zip, String spaces, String cost, String open, String close, String type, String lat, String lon) {
         return "#crowdpark - Lat: " + lat + " - Lon: " + lon + " - Zipcode: " + zip
-                + " - Spaces: " + spaces + " - Cost: " + cost + " - Type: " + type + " - Open: " + open + " - Close: " + close;
+                + " - Spaces: " + spaces + " - Cost: " + cost + " - Open: " + open + " - Close: " + close + " - Type: " + type;
     }
 
     public static void test() {
