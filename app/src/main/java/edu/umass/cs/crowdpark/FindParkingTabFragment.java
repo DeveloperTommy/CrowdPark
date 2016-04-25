@@ -11,9 +11,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import edu.umass.cs.crowdpark.util.TweetUtil;
@@ -29,6 +32,17 @@ import twitter4j.conf.ConfigurationBuilder;
  * Created by David on 4/24/2016.
  */
 public class FindParkingTabFragment extends Fragment {
+
+    //Adapter Stuff
+    public static final String FIRST_COLUMN="First";
+    public static final String SECOND_COLUMN="Second";
+    public static final String THIRD_COLUMN="Third";
+    public static final String FOURTH_COLUMN="Fourth";
+    public static final String FIFTH_COLUMN="Fifth";
+    public static final String SIXTH_COLUMN="Sixth";
+
+    //Adapter list
+    private ArrayList<HashMap<String, String>> list;
 
     Twitter twitter;
     RequestToken requestToken = null;
@@ -60,6 +74,57 @@ public class FindParkingTabFragment extends Fragment {
                 }
             });
         }
+
+        //List Adapter
+        ListView listView=(ListView) view.findViewById(R.id.listView);
+
+        list=new ArrayList<HashMap<String,String>>();
+
+        HashMap<String,String> categories = new HashMap<String, String>();
+        categories.put(FIRST_COLUMN, "Distance");
+        categories.put(SECOND_COLUMN, "Name");
+        categories.put(THIRD_COLUMN, "Cost $");
+        categories.put(FOURTH_COLUMN, "Spaces");
+        categories.put(FIFTH_COLUMN, "Operating Times");
+        list.add(categories);
+
+        HashMap<String,String> temp=new HashMap<String, String>();
+        temp.put(FIRST_COLUMN, "Ankit Karia");
+        temp.put(SECOND_COLUMN, "Male");
+        temp.put(THIRD_COLUMN, "22");
+        temp.put(FOURTH_COLUMN, "Unmarried");
+        temp.put(FIFTH_COLUMN, "Time");
+        list.add(temp);
+
+        HashMap<String,String> temp2=new HashMap<String, String>();
+        temp2.put(FIRST_COLUMN, "Rajat Ghai");
+        temp2.put(SECOND_COLUMN, "Male");
+        temp2.put(THIRD_COLUMN, "25");
+        temp2.put(FOURTH_COLUMN, "Unmarried");
+        temp2.put(FIFTH_COLUMN, "Time");
+        list.add(temp2);
+
+        HashMap<String,String> temp3=new HashMap<String, String>();
+        temp3.put(FIRST_COLUMN, "Karina Kaif");
+        temp3.put(SECOND_COLUMN, "Female");
+        temp3.put(THIRD_COLUMN, "31");
+        temp3.put(FOURTH_COLUMN, "Unmarried");
+        temp3.put(FIFTH_COLUMN, "Time");
+        list.add(temp3);
+
+        ParkingLocationAdapter adapter = new ParkingLocationAdapter(getActivity(), list);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view, int position, long id)
+            {
+                Log.v("Hello", "clicked");
+            }
+
+        });
+
 
 
         new GetParkingTask().execute();
