@@ -33,5 +33,19 @@
         android:layout_width="0dp"
         android:layout_weight="1" />
 
+    <TextView
+        android:id="@+id/lat"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/lon"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1" />
+
 
 </LinearLayout>

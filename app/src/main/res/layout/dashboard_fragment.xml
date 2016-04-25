@@ -11,13 +11,26 @@
         android:layout_width="wrap_content"
         android:textSize="40px"
         android:layout_height="80px"
+        android:visibility="gone"
         android:layout_gravity="center" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="Add a Parking Location"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="#02acee"
+        android:textColor="#ffffff" />
 
     <EditText
         android:layout_width="325dp"
         android:layout_height="wrap_content"
-        android:id="@+id/zip_text"
-        android:hint="Zip Code"
+        android:id="@+id/name_text"
+        android:hint="Name"
         android:layout_gravity="center" />
 
     <EditText
@@ -56,11 +69,61 @@
         android:layout_gravity="center_horizontal"
         android:spinnerMode="dropdown" />
 
-    <Button
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Latitude: "
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/latText" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:text="Longitude:"
+            android:id="@+id/lonText" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+
+        <ImageView
+            android:id="@+id/tweet"
+            android:layout_width="180dp"
+            android:layout_height="100dp"
+            android:layout_margin="10px"
+            android:src="@drawable/tweet_button"
+            android:layout_gravity="center" />
+
+        <ImageView
+            android:id="@+id/signout"
+            android:layout_width="180dp"
+            android:layout_height="100dp"
+            android:layout_margin="10px"
+            android:src="@drawable/signout_button"
+            android:layout_gravity="center" />
+        </LinearLayout>
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="The parking space&apos;s long and lat are: "
-        android:id="@+id/location_button"
+        android:text="Or"
+        android:id="@+id/textView2"
         android:layout_gravity="center_horizontal" />
 
     <Button
@@ -68,22 +131,12 @@
         android:layout_height="wrap_content"
         android:text="Add Event to Nearby Location"
         android:id="@+id/event_button"
-        android:layout_gravity="center_horizontal" />
-
-    <ImageView
-        android:id="@+id/tweet"
-        android:layout_width="400px"
-        android:layout_height="100px"
-        android:layout_marginTop="10px"
-        android:src="@drawable/tweet_button"
-        android:layout_gravity="center" />
-
-    <ImageView
-        android:id="@+id/signout"
-        android:layout_width="400px"
-        android:layout_height="100px"
-        android:src="@drawable/signout_button"
-        android:layout_gravity="center" />
+        android:padding="5dp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:background="#02acee"
+        android:textColor="#fafafa"
+        android:layout_marginTop="10dp" />
 
     <ImageView
             android:id="@+id/prof_image"

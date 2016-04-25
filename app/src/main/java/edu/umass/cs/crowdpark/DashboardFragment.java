@@ -69,6 +69,15 @@ public class DashboardFragment extends android.support.v4.app.Fragment {
         tweet.setOnClickListener(new Tweet());
         new LoadProfile().execute();
 
+        double latitude = Double.parseDouble(pref.getString("LATITUDE", ""));
+        double longitude = Double.parseDouble(pref.getString("LONGITUDE", ""));
+
+        TextView latView = (TextView) view.findViewById(R.id.latText);
+        TextView lonView = (TextView) view.findViewById(R.id.lonText);
+
+        latView.setText(latView.getText() + " " + latitude);
+        lonView.setText(lonView.getText() + " " + longitude);
+
         myFirebaseRef = new Firebase("https://burning-fire-7390.firebaseio.com/");
         myFirebaseRef.child("message").setValue("Database connection and write to profile successful");
 
@@ -134,12 +143,12 @@ public class DashboardFragment extends android.support.v4.app.Fragment {
 
             Activity currActivity = getActivity();
 
-            String zip = ((EditText) currActivity.findViewById(R.id.zip_text)).getText().toString();
+            String name = ((EditText) currActivity.findViewById(R.id.name_text)).getText().toString();
             String spaces = ((EditText) currActivity.findViewById(R.id.spaces_text)).getText().toString();
             String cost = ((EditText) currActivity.findViewById(R.id.cost_text)).getText().toString();
             String open = ((EditText) currActivity.findViewById(R.id.open_text)).getText().toString();
             String close = ((EditText) currActivity.findViewById(R.id.closing_text)).getText().toString();
-            String type = "";
+            String type = "Other";
 
             String lat = pref.getString("LATITUDE", "");
             String lon = pref.getString("LONGITUDE", "");
@@ -150,7 +159,8 @@ public class DashboardFragment extends android.support.v4.app.Fragment {
 
 
             //tweetText = tweet_text.getText().toString();
-            tweetText = TweetUtil.createTweet(zip, spaces, cost, open, close, type, lat, lon);
+            tweetText = TweetUtil.createTweet(name, spaces, cost, open, close, type, lat, lon);
+            Log.v("Hello", "Created Tweet: " + tweet_text);
             progress.show();
 
         }

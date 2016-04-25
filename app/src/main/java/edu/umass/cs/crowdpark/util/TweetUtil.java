@@ -7,13 +7,15 @@ import android.util.Log;
  */
 public class TweetUtil {
 
-    String twitter = "#crowdpark - Latitude: 12.12 - Longitude: 12.4 - Zip: 03292 - Spaces: 2 - Cost: 32.43 - Opening: 2AM - Closing: 6PM";
+    String twitter = "#crowdpark ; Latitude: 12.12 ; Longitude: 12.4 ; Zip: 03292 ; Spaces: 2 ; Cost: 32.43 ; Opening: 2AM ; Closing: 6PM";
+
+    public static final int LAT = 0, LON = 1, NAME = 2, SPACE = 3, COST = 4, OPEN = 5, CLOSE = 6, TYPE = 7;
 
     public static String [] parseTweet(String tweet){
         String [] parkingData;
-        parkingData = tweet.split("-");
+        parkingData = tweet.split(";");
         String [] newData = new String[parkingData.length - 1];
-        String [] dataNames = {"#crowdpark", "Lat", "Lon", "Zip", "Spaces", "Cost", "Open", "Close", "Type"};
+        String [] dataNames = {"#crowdpark", "Lat", "Lon", "Name", "Spaces", "Cost", "Open", "Close", "Type"};
 
         for(int i = 0; i< parkingData.length; i++){
             String [] currentSplit = parkingData[i].split(":");
@@ -26,13 +28,13 @@ public class TweetUtil {
                         newData[i-1] = currentSplit[1];
                     }
                     else{
-                        Log.e("Hello","Tweet does not have correct parking information!");
+                        Log.e("Hello","Tweet does not have correct parking information! Size is not equal to 2");
                         return null;
                     }
                 }
             }
             else{
-                Log.e("Hello", "Tweet does not have correct parking information!");
+                Log.e("Hello", "Tweet does not have correct parking information! String incorrect: " + thing);
                 return null;
             }
 
@@ -40,9 +42,9 @@ public class TweetUtil {
         return newData;
     }
 
-    public static String createTweet(String zip, String spaces, String cost, String open, String close, String type, String lat, String lon) {
-        return "#crowdpark - Lat: " + lat + " - Lon: " + lon + " - Zipcode: " + zip
-                + " - Spaces: " + spaces + " - Cost: " + cost + " - Open: " + open + " - Close: " + close + " - Type: " + type;
+    public static String createTweet(String name, String spaces, String cost, String open, String close, String type, String lat, String lon) {
+        return "#crowdpark ; Lat: " + lat + " ; Lon: " + lon + " ; Name: " + name
+                + " ; Spaces: " + spaces + " ; Cost: " + cost + " ; Open: " + open + " ; Close: " + close + " ; Type: " + type;
     }
 
     public static void test() {
