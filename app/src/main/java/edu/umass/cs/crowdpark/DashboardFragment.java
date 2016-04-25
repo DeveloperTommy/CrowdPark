@@ -1,5 +1,6 @@
 package edu.umass.cs.crowdpark;
 
+import android.app.ActionBar;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -13,7 +14,6 @@ import android.graphics.Paint;
 import android.graphics.Shader;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +28,6 @@ import com.firebase.client.Firebase;
 import java.io.InputStream;
 import java.net.URL;
 
-import twitter4j.QueryResult;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -39,12 +38,12 @@ import twitter4j.conf.ConfigurationBuilder;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ProfileFragment.OnFragmentInteractionListener} interface
+ * {@link DashboardFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ProfileFragment#newInstance} factory method to
+ * Use the {@link DashboardFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfileFragment extends Fragment {
+public class DashboardFragment extends Fragment {
     TextView prof_name;
     SharedPreferences pref;
     Bitmap bitmap;
@@ -58,7 +57,7 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle args) {
-        View view = inflater.inflate(R.layout.profile_fragment, container, false);
+        View view = inflater.inflate(R.layout.dashboard_fragment, container, false);
         prof_name = (TextView)view.findViewById(R.id.prof_name);
         pref = getActivity().getPreferences(0);
         prof_img = (ImageView)view.findViewById(R.id.prof_image);
@@ -78,9 +77,6 @@ public class ProfileFragment extends Fragment {
         @Override
         public void onClick(View arg0) {
             // TODO Auto-generated method stub
-
-
-            myFirebaseRef.child("message").setValue("Database connection and write to profile successful");
 
             SharedPreferences.Editor edit = pref.edit();
             edit.putString("ACCESS_TOKEN", "");
