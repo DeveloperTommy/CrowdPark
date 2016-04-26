@@ -24,6 +24,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import edu.umass.cs.crowdpark.util.DistanceComparator;
 import edu.umass.cs.crowdpark.util.LocationUtil;
 import edu.umass.cs.crowdpark.util.TweetUtil;
 import twitter4j.QueryResult;
@@ -92,7 +93,7 @@ public class FindParkingTabFragment extends Fragment {
         HashMap<String,String> categories = new HashMap<String, String>();
         categories.put(FIRST_COLUMN, "Distance (Meters)");
         categories.put(SECOND_COLUMN, "Name");
-        categories.put(THIRD_COLUMN, "Cost $");
+        categories.put(THIRD_COLUMN, "Cost");
         categories.put(FOURTH_COLUMN, "Spaces");
         categories.put(FIFTH_COLUMN, "Operating Times");
         list.add(categories);
@@ -185,6 +186,8 @@ public class FindParkingTabFragment extends Fragment {
 
             Log.v("Hello", "Size of valid: " + valid.size());
 
+            Collections.sort(valid, new DistanceComparator());
+
             //Merge sort by distance
             Collections.sort(valid, new Comparator<String>() {
                 @Override
@@ -228,7 +231,7 @@ public class FindParkingTabFragment extends Fragment {
                 HashMap<String,String> temp = new HashMap<String, String>();
                 temp.put(FIRST_COLUMN, df.format(distance) + "m");
                 temp.put(SECOND_COLUMN, result[TweetUtil.NAME]);
-                temp.put(THIRD_COLUMN, result[TweetUtil.COST]);
+                temp.put(THIRD_COLUMN, "$" + result[TweetUtil.COST]);
                 temp.put(FOURTH_COLUMN, result[TweetUtil.SPACE]);
                 temp.put(FIFTH_COLUMN, result[TweetUtil.OPEN] + " to " + result[TweetUtil.CLOSE]);
                 temp.put(SIXTH_COLUMN, "" + lat);

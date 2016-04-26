@@ -5,12 +5,11 @@
     android:id="@+id/findparking"
     android:orientation="vertical">
 
-
     <android.support.v4.widget.SwipeRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swiperefresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <ListView
             android:layout_width="wrap_content"
@@ -27,6 +26,9 @@
         android:layout_height="wrap_content"
         android:text="See my location"
         android:id="@+id/locationButton"
+        android:background="#02acee"
+        android:textColor="#fafafa"
+        android:padding="5dp"
         android:layout_marginBottom="123dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
