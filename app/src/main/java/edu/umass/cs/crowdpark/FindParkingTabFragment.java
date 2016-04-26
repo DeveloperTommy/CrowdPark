@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +57,8 @@ public class FindParkingTabFragment extends Fragment {
     String oauth_url,oauth_verifier,profile_url;
     SharedPreferences pref;
 
+    SwipeRefreshLayout refresh;
+
     double latitude, longitude;
 
     @Override
@@ -97,20 +100,44 @@ public class FindParkingTabFragment extends Fragment {
         ParkingLocationAdapter adapter = new ParkingLocationAdapter(getActivity(), list);
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, final View view, int position, long id)
-            {
+            public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
                 Log.v("Hello", "clicked");
                 Log.v("Hello", "" + ((TextView) view.findViewById(R.id.lat)).getText());
                 String uri = "geo:" + ((TextView) view.findViewById(R.id.lat)).getText() + "," + ((TextView) view.findViewById(R.id.lon)).getText()
-                            + "?q=" + ((TextView) view.findViewById(R.id.lat)).getText() + "," + ((TextView) view.findViewById(R.id.lon)).getText() + "(Parking Location)";
+                        + "?q=" + ((TextView) view.findViewById(R.id.lat)).getText() + "," + ((TextView) view.findViewById(R.id.lon)).getText() + "(Parking Location)";
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                 getActivity().startActivity(intent);
             }
 
         });
+
+
+        /*
+        refresh = ((SwipeRefreshLayout) view.findViewById(R.id.swiperefresh));
+
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh.setRefreshing(true);
+
+                // Create new fragment and transaction
+                Fragment newFragment = new FindParkingTabFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack
+                transaction.replace(R.id.findparking, newFragment);
+                transaction.addToBackStack(null);
+
+                // Commit the transaction
+                transaction.commit();
+
+                refresh.setRefreshing(false);
+            }
+        });
+        */
 
 
 
