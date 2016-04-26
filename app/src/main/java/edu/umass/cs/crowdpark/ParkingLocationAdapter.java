@@ -60,7 +60,6 @@ public class ParkingLocationAdapter extends BaseAdapter {
         LayoutInflater inflater=activity.getLayoutInflater();
 
         if(convertView == null){
-
             convertView=inflater.inflate(R.layout.column_row, null);
 
             txtFirst = (TextView) convertView.findViewById(R.id.distance);
@@ -70,7 +69,6 @@ public class ParkingLocationAdapter extends BaseAdapter {
             txtFifth = (TextView) convertView.findViewById(R.id.time);
             txtSixth = (TextView) convertView.findViewById(R.id.lat);
             txtSeventh = (TextView) convertView.findViewById(R.id.lon);
-
         }
 
         HashMap<String, String> map=list.get(position);
