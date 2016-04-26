@@ -1,13 +1,11 @@
 package edu.umass.cs.crowdpark;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,14 +18,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import edu.umass.cs.crowdpark.util.TweetUtil;
-import twitter4j.QueryResult;
 import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
-import twitter4j.conf.ConfigurationBuilder;
 
 
 /**
@@ -54,7 +47,9 @@ public class EventsTabFragment extends Fragment {
     String oauth_url,oauth_verifier,profile_url;
     SharedPreferences pref;
 
-    double latitude, longitude;
+    public FragmentTransaction ft;
+    public Fragment fr;
+    public FragmentManager fm;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,21 +58,43 @@ public class EventsTabFragment extends Fragment {
 
        pref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
 
-        latitude = Double.parseDouble(pref.getString("LATITUDE", ""));
-        longitude = Double.parseDouble(pref.getString("LONGITUDE", ""));
+        //Add Event button
+        Button addEventButton = (Button) view.findViewById(R.id.addEventButton);
 
-        Button mapsButton = (Button) view.findViewById(R.id.locationButton);
-
-        if (mapsButton != null) {
-            mapsButton.setOnClickListener(new View.OnClickListener() {
+        if (addEventButton != null) {
+            addEventButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String uri = "geo:" + latitude + "," + longitude + "?q=" + latitude + "," + longitude + "(Parking Location)";
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                    getActivity().startActivity(intent);
+
+                    fr = new AddEventFragment();
+
+                    fm = getFragmentManager();
+                    ft = fm.beginTransaction();
+                    ft.replace(R.id.eventsTabFragment, fr);
+                    ft.commit();
+
+
+
+
+                    /*AddEventFragment addEvent = (AddEventFragment) getFragmentManager().findFragmentById(R.id.addEventFragment);
+                    if (addEvent == null) {
+                        // Make new fragment to show this selection.
+                        addEvent = AddEventFragment.;
+
+                        // Execute a transaction, replacing any existing
+                        // fragment with this one inside the frame.
+                        ft
+                                = getFragmentManager().beginTransaction();
+                        ft.add(R.id.addEventFragment, addEvent, "add event");
+                        ft.setTransition(
+                                FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                        ft.commit();
+                    }*/
+
                 }
             });
         }
+
 
         //List Adapter
         ListView listView=(ListView) view.findViewById(R.id.eventListView);
