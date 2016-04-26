@@ -26,6 +26,9 @@
         android:layout_height="wrap_content"
         android:text="See my location"
         android:id="@+id/locationButton"
+        android:background="#02acee"
+        android:textColor="#fafafa"
+        android:padding="5dp"
         android:layout_marginBottom="123dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />

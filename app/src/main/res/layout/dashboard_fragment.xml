@@ -141,6 +141,7 @@
     <ImageView
             android:id="@+id/prof_image"
             android:layout_width="30px"
+            android:visibility="gone"
             android:layout_height="30px"/>
 
 </LinearLayout>
