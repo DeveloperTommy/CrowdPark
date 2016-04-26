@@ -1,5 +1,6 @@
 package edu.umass.cs.crowdpark;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -65,31 +66,8 @@ public class EventsTabFragment extends Fragment {
             addEventButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    fr = new AddEventFragment();
-
-                    fm = getFragmentManager();
-                    ft = fm.beginTransaction();
-                    ft.replace(R.id.eventsTabFragment, fr);
-                    ft.commit();
-
-
-
-
-                    /*AddEventFragment addEvent = (AddEventFragment) getFragmentManager().findFragmentById(R.id.addEventFragment);
-                    if (addEvent == null) {
-                        // Make new fragment to show this selection.
-                        addEvent = AddEventFragment.;
-
-                        // Execute a transaction, replacing any existing
-                        // fragment with this one inside the frame.
-                        ft
-                                = getFragmentManager().beginTransaction();
-                        ft.add(R.id.addEventFragment, addEvent, "add event");
-                        ft.setTransition(
-                                FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                        ft.commit();
-                    }*/
+                    Intent intent = new Intent(getActivity(), AddEventActivity.class);
+                    startActivity(intent);
 
                 }
             });

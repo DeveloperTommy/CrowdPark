@@ -3,13 +3,17 @@ package edu.umass.cs.crowdpark;
 import android.Manifest;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -42,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
 
 
         //Location stuff
-        /*locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (locationManager != null) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                     || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -65,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
                 edit.putString("LONGITUDE", "" + longitude);
                 Log.v("Hello", "Latitude:" + currentLocation.getLatitude() + ", Longitude:" + currentLocation.getLongitude());
             }
-        }*/
+        }
 
         edit.commit();
 

@@ -69,11 +69,11 @@ public class DashboardFragment extends android.support.v4.app.Fragment {
         tweet.setOnClickListener(new Tweet());
         new LoadProfile().execute();
 
-        double latitude = Double.parseDouble(pref.getString("LATITUDE", ""));
-        double longitude = Double.parseDouble(pref.getString("LONGITUDE", ""));
+         double latitude = Double.parseDouble(pref.getString("LATITUDE", ""));
+         double longitude = Double.parseDouble(pref.getString("LONGITUDE", ""));
 
-        TextView latView = (TextView) view.findViewById(R.id.latText);
-        TextView lonView = (TextView) view.findViewById(R.id.lonText);
+         TextView latView = (TextView) view.findViewById(R.id.latText);
+         TextView lonView = (TextView) view.findViewById(R.id.lonText);
 
         latView.setText(latView.getText() + " " + latitude);
         lonView.setText(lonView.getText() + " " + longitude);

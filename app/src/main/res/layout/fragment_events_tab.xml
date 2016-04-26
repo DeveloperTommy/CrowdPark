@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:id="@+id/eventsTabFragment"
     android:background="@color/white"
+    android:clickable="true"
     android:orientation="vertical">
 
 

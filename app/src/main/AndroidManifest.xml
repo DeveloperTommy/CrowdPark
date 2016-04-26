@@ -24,6 +24,10 @@
             android:name=".DashboardActivity"
             android:label="@string/title_activity_dashboard" >
         </activity>
+        <activity
+            android:name=".AddEventActivity"
+            android:label="@string/add_event_activity" >
+        </activity>
     </application>
 
 </manifest>
