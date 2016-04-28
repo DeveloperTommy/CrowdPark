@@ -58,6 +58,8 @@ public class FindParkingTabFragment extends Fragment {
     String oauth_url,oauth_verifier,profile_url;
     SharedPreferences pref;
 
+    final String TWEET_TAG = "Twitter";
+
     SwipeRefreshLayout refresh;
 
     double latitude, longitude;
@@ -114,34 +116,6 @@ public class FindParkingTabFragment extends Fragment {
 
         });
 
-
-        /*
-        refresh = ((SwipeRefreshLayout) view.findViewById(R.id.swiperefresh));
-
-        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refresh.setRefreshing(true);
-
-                // Create new fragment and transaction
-                Fragment newFragment = new FindParkingTabFragment();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack
-                transaction.replace(R.id.findparking, newFragment);
-                transaction.addToBackStack(null);
-
-                // Commit the transaction
-                transaction.commit();
-
-                refresh.setRefreshing(false);
-            }
-        });
-        */
-
-
-
         new GetParkingTask().execute();
 
         return view;
@@ -167,24 +141,24 @@ public class FindParkingTabFragment extends Fragment {
                 List<twitter4j.Status> tweets = result.getTweets();
 
                 for (twitter4j.Status status : tweets) {
-                    Log.v("Hello", status.getText() + " Date: " + status.getCreatedAt());
+                    Log.v(TWEET_TAG, status.getText() + " Date: " + status.getCreatedAt());
 
                     String[] curr = TweetUtil.parseTweet(status.getText());
 
                     if (curr != null) {
                         valid.add(status.getText());
-                        Log.v("Hello", "Valid Tweet added");
+                        Log.v(TWEET_TAG, "Valid Tweet added");
                     }
 
                 }
                 //End of querying
             }
             catch (TwitterException e) {
-                Log.e("Hello", e.toString());
+                Log.e(TWEET_TAG, e.toString());
             }
 
 
-            Log.v("Hello", "Size of valid: " + valid.size());
+            Log.v(TWEET_TAG, "Size of valid: " + valid.size());
 
             Collections.sort(valid, new DistanceComparator());
 
@@ -214,10 +188,10 @@ public class FindParkingTabFragment extends Fragment {
 
         protected void onPostExecute(List<String> response) {
 
-            Log.v("Hello", "Valid Tweets: \n");
+            Log.v(TWEET_TAG, "Valid Tweets: \n");
 
             for (String tweet: response) {
-                Log.v("Hello", tweet);
+                Log.v(TWEET_TAG, tweet);
 
                 String[] result = TweetUtil.parseTweet(tweet);
 
@@ -240,7 +214,7 @@ public class FindParkingTabFragment extends Fragment {
 
             }
 
-            Log.v("Hello", "End of valid Tweets: \n");
+            Log.v(TWEET_TAG, "End of valid Tweets: \n");
 
 
         }

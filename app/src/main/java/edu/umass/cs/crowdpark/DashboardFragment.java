@@ -79,7 +79,6 @@ public class DashboardFragment extends android.support.v4.app.Fragment {
         lonView.setText(lonView.getText() + " " + longitude);
 
         myFirebaseRef = new Firebase("https://burning-fire-7390.firebaseio.com/");
-        myFirebaseRef.child("message").setValue("Database connection and write to profile successful");
 
         return view;
     }

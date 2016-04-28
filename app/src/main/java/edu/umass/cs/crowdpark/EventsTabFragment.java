@@ -15,10 +15,18 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import edu.umass.cs.crowdpark.util.LocationUtil;
 import twitter4j.Twitter;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
@@ -52,12 +60,21 @@ public class EventsTabFragment extends Fragment {
     public Fragment fr;
     public FragmentManager fm;
 
+    //Firebase
+    Firebase myFirebaseRef;
+    final String FIREBASE_TAG = "Firebase";
+
+    double latitude, longitude;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_events_tab, container, false);
 
-       pref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        pref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+
+        latitude = Double.parseDouble(pref.getString("LATITUDE", ""));
+        longitude = Double.parseDouble(pref.getString("LONGITUDE", ""));
 
         //Add Event button
         Button addEventButton = (Button) view.findViewById(R.id.addEventButton);
@@ -85,23 +102,60 @@ public class EventsTabFragment extends Fragment {
         categories.put(THIRD_COLUMN, "Description");
         list.add(categories);
 
-        HashMap<String,String> temp=new HashMap<String, String>();
-        temp.put(FIRST_COLUMN, "Carnival");
-        temp.put(SECOND_COLUMN, "0.3");
-        temp.put(THIRD_COLUMN, "Amusement park rides, food, and performances!");
-        list.add(temp);
+        Firebase.setAndroidContext(getActivity());
+        myFirebaseRef = new Firebase("https://burning-fire-7390.firebaseio.com/events");
 
-        HashMap<String,String> temp2=new HashMap<String, String>();
-        temp2.put(FIRST_COLUMN, "Art Performance");
-        temp2.put(SECOND_COLUMN, "1.2");
-        temp2.put(THIRD_COLUMN, "Check out a display of beautiful arts");
-        list.add(temp2);
+        Query queryRef = myFirebaseRef.orderByKey();
 
-        HashMap<String,String> temp3=new HashMap<String, String>();
-        temp3.put(FIRST_COLUMN, "Ice Skating");
-        temp3.put(SECOND_COLUMN, "3.5");
-        temp3.put(THIRD_COLUMN, "$5 entrance. $5 rental skates");
-        list.add(temp3);
+        Log.v(FIREBASE_TAG, "Firebase");
+
+        queryRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot snapshot, String previousChild) {
+                Log.v(FIREBASE_TAG, "Snapshot: " + snapshot.toString());
+                Log.v(FIREBASE_TAG, "Name: " + snapshot.child("name").getValue().toString());
+                Log.v(FIREBASE_TAG, "Desc: " + snapshot.child("description").getValue().toString());
+                Log.v(FIREBASE_TAG, "Lat: " + snapshot.child("location").child("latitude").getValue().toString());
+                Log.v(FIREBASE_TAG, "Lon: " + snapshot.child("location").child("longitude").getValue().toString());
+
+                String eventName = snapshot.child("name").getValue().toString();
+                String eventDesc = snapshot.child("description").getValue().toString();
+                double lat = Double.parseDouble(snapshot.child("location").child("latitude").getValue().toString());
+                double lon = Double.parseDouble(snapshot.child("location").child("longitude").getValue().toString());
+
+                double distance = LocationUtil.distance(lat, latitude, lon, longitude, 0, 0);
+
+                DecimalFormat df = new DecimalFormat("#.###");
+
+                HashMap<String,String> temp=new HashMap<String, String>();
+                temp.put(FIRST_COLUMN, eventName);
+                temp.put(SECOND_COLUMN, df.format(distance));
+                temp.put(THIRD_COLUMN, eventDesc);
+                list.add(temp);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+
+
+        });
 
         EventsTabAdapter adapter = new EventsTabAdapter(getActivity(), list);
         listView.setAdapter(adapter);
@@ -115,10 +169,6 @@ public class EventsTabFragment extends Fragment {
             }
 
         });
-
-
-
-       // new GetParkingTask().execute();
 
         return view;
     }
