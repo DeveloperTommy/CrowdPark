@@ -19,6 +19,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
  * Created by David on 4/28/2016.
  */
 
+
+//Debugging
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class ViewAddLocationTest {
