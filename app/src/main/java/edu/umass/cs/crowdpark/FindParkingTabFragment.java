@@ -24,8 +24,10 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import edu.umass.cs.crowdpark.util.CostComparator;
 import edu.umass.cs.crowdpark.util.DistanceComparator;
 import edu.umass.cs.crowdpark.util.LocationUtil;
+import edu.umass.cs.crowdpark.util.SpaceComparator;
 import edu.umass.cs.crowdpark.util.TweetUtil;
 import twitter4j.QueryResult;
 import twitter4j.Twitter;
@@ -51,6 +53,7 @@ public class FindParkingTabFragment extends Fragment {
 
     //Adapter list
     private ArrayList<HashMap<String, String>> list;
+    ArrayList<String> valid;
 
     Twitter twitter;
     RequestToken requestToken = null;
@@ -63,6 +66,8 @@ public class FindParkingTabFragment extends Fragment {
     SwipeRefreshLayout refresh;
 
     double latitude, longitude;
+
+    static Comparator<String> comparator;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -116,7 +121,69 @@ public class FindParkingTabFragment extends Fragment {
 
         });
 
+        comparator = new DistanceComparator();
+
         new GetParkingTask().execute();
+
+        //Button instantiation for sorting
+
+        Button distanceButton = (Button) view.findViewById(R.id.dist_button);
+        Button costButton = (Button) view.findViewById(R.id.cost_button);
+        Button spaceButton = (Button) view.findViewById(R.id.spaces_button);
+
+        distanceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                list = new ArrayList<HashMap<String,String>>();
+
+                HashMap<String,String> categories = new HashMap<String, String>();
+                categories.put(FIRST_COLUMN, "Distance (Meters)");
+                categories.put(SECOND_COLUMN, "Name");
+                categories.put(THIRD_COLUMN, "Cost");
+                categories.put(FOURTH_COLUMN, "Spaces");
+                categories.put(FIFTH_COLUMN, "Operating Times");
+                list.add(categories);
+
+                comparator = new DistanceComparator();
+                new GetParkingTask().execute();
+            }
+        });
+
+        costButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                list = new ArrayList<HashMap<String,String>>();
+
+                HashMap<String,String> categories = new HashMap<String, String>();
+                categories.put(FIRST_COLUMN, "Distance (Meters)");
+                categories.put(SECOND_COLUMN, "Name");
+                categories.put(THIRD_COLUMN, "Cost");
+                categories.put(FOURTH_COLUMN, "Spaces");
+                categories.put(FIFTH_COLUMN, "Operating Times");
+                list.add(categories);
+
+                comparator = new CostComparator();
+                new GetParkingTask().execute();
+            }
+        });
+
+        spaceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                list = new ArrayList<HashMap<String,String>>();
+
+                HashMap<String,String> categories = new HashMap<String, String>();
+                categories.put(FIRST_COLUMN, "Distance (Meters)");
+                categories.put(SECOND_COLUMN, "Name");
+                categories.put(THIRD_COLUMN, "Cost");
+                categories.put(FOURTH_COLUMN, "Spaces");
+                categories.put(FIFTH_COLUMN, "Operating Times");
+                list.add(categories);
+
+                comparator = new SpaceComparator();
+                new GetParkingTask().execute();
+            }
+        });
 
         return view;
     }
@@ -125,7 +192,7 @@ public class FindParkingTabFragment extends Fragment {
     private class GetParkingTask extends AsyncTask<String, String, List<String>> {
         protected List<String> doInBackground(String... args) {
 
-            ArrayList<String> valid = new ArrayList<String>();
+            valid = new ArrayList<String>();
 
             try {
 
@@ -157,31 +224,10 @@ public class FindParkingTabFragment extends Fragment {
                 Log.e(TWEET_TAG, e.toString());
             }
 
-
             Log.v(TWEET_TAG, "Size of valid: " + valid.size());
 
-            Collections.sort(valid, new DistanceComparator());
-
             //Merge sort by distance
-            Collections.sort(valid, new Comparator<String>() {
-                @Override
-                public int compare(String lhs, String rhs) {
-                    String[] left = TweetUtil.parseTweet(lhs);
-                    String[] right = TweetUtil.parseTweet(rhs);
-
-                    double leftLat = Double.parseDouble(left[TweetUtil.LAT]);
-                    double leftLon = Double.parseDouble(left[TweetUtil.LON]);
-
-                    double rightLat = Double.parseDouble(right[TweetUtil.LAT]);
-                    double rightLon = Double.parseDouble(right[TweetUtil.LON]);
-
-                    Double leftDistance = LocationUtil.distance(leftLat, latitude, leftLon, longitude, 0, 0);
-                    Double rightDistance = LocationUtil.distance(rightLat, latitude, rightLon, longitude, 0, 0);
-
-                    return leftDistance.compareTo(rightDistance);
-
-                }
-            });
+            Collections.sort(valid, new DistanceComparator());
 
             return valid;
         }
