@@ -21,7 +21,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class AddLocationTextValidator {
+public class ViewAddLocationTest {
 
     private static final String name = "Campus Center Garage";
     private static final String spaces = "10";
