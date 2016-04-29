@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -68,6 +69,7 @@ public class FindParkingTabFragment extends Fragment {
     double latitude, longitude;
 
     static Comparator<String> comparator;
+    ListView listView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -93,7 +95,7 @@ public class FindParkingTabFragment extends Fragment {
         }
 
         //List Adapter
-        ListView listView=(ListView) view.findViewById(R.id.listView);
+        listView=(ListView) view.findViewById(R.id.listView);
 
         list = new ArrayList<HashMap<String,String>>();
 
@@ -134,6 +136,8 @@ public class FindParkingTabFragment extends Fragment {
         distanceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getActivity(), "Please swipe to another tab then back to refresh", Toast.LENGTH_SHORT).show();
+
                 list = new ArrayList<HashMap<String,String>>();
 
                 HashMap<String,String> categories = new HashMap<String, String>();
@@ -144,14 +148,22 @@ public class FindParkingTabFragment extends Fragment {
                 categories.put(FIFTH_COLUMN, "Operating Times");
                 list.add(categories);
 
-                comparator = new DistanceComparator();
+                DistanceComparator dist = new DistanceComparator();
+                dist.setCoords(latitude, longitude);
+                comparator = dist;
+
                 new GetParkingTask().execute();
+
+                ParkingLocationAdapter adapter = new ParkingLocationAdapter(getActivity(), list);
+                listView.setAdapter(adapter);
             }
         });
 
         costButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getActivity(), "Please swipe to another tab then back to refresh", Toast.LENGTH_SHORT).show();
+
                 list = new ArrayList<HashMap<String,String>>();
 
                 HashMap<String,String> categories = new HashMap<String, String>();
@@ -164,12 +176,17 @@ public class FindParkingTabFragment extends Fragment {
 
                 comparator = new CostComparator();
                 new GetParkingTask().execute();
+
+                ParkingLocationAdapter adapter = new ParkingLocationAdapter(getActivity(), list);
+                listView.setAdapter(adapter);
             }
         });
 
         spaceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getActivity(), "Please swipe to another tab then back to refresh", Toast.LENGTH_SHORT).show();
+
                 list = new ArrayList<HashMap<String,String>>();
 
                 HashMap<String,String> categories = new HashMap<String, String>();
@@ -182,6 +199,9 @@ public class FindParkingTabFragment extends Fragment {
 
                 comparator = new SpaceComparator();
                 new GetParkingTask().execute();
+
+                ParkingLocationAdapter adapter = new ParkingLocationAdapter(getActivity(), list);
+                listView.setAdapter(adapter);
             }
         });
 
@@ -227,7 +247,7 @@ public class FindParkingTabFragment extends Fragment {
             Log.v(TWEET_TAG, "Size of valid: " + valid.size());
 
             //Merge sort by distance
-            Collections.sort(valid, new DistanceComparator());
+            Collections.sort(valid, comparator);
 
             return valid;
         }
