@@ -50,13 +50,18 @@
         android:id="@+id/discardButton"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/submitButton"
-        android:layout_marginBottom="48dp" />
+        android:layout_marginBottom="48dp"
+        android:background="#02acee"
+        android:textColor="#ffffff" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Submit"
         android:id="@+id/submitButton"
+        android:background="#02acee"
+        android:textColor="#ffffff"
+        android:layout_marginTop="5dp"
         android:layout_above="@+id/discardButton"
         android:layout_centerHorizontal="true" />
 

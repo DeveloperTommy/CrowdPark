@@ -24,7 +24,7 @@ import android.support.v4.app.Fragment;
                     FindParkingTabFragment tab1 = new FindParkingTabFragment();
                     return tab1;
                 case 1:
-                    DashboardFragment tab2 = new DashboardFragment();
+                    AddLocationTabFragment tab2 = new AddLocationTabFragment();
                     return tab2;
                 case 2:
                     EventsTabFragment tab3 = new EventsTabFragment();

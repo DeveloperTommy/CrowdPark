@@ -40,12 +40,12 @@ import twitter4j.conf.ConfigurationBuilder;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link DashboardFragment.OnFragmentInteractionListener} interface
+ * {@link AddLocationTabFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link DashboardFragment#newInstance} factory method to
+ * Use the {@link AddLocationTabFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DashboardFragment extends android.support.v4.app.Fragment {
+public class AddLocationTabFragment extends android.support.v4.app.Fragment {
     TextView prof_name;
     SharedPreferences pref;
     Bitmap bitmap;
@@ -59,7 +59,7 @@ public class DashboardFragment extends android.support.v4.app.Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle args) {
-        View view = inflater.inflate(R.layout.dashboard_fragment, container, false);
+        View view = inflater.inflate(R.layout.add_location_tab_fragment, container, false);
         prof_name = (TextView)view.findViewById(R.id.prof_name);
         pref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
         prof_img = (ImageView)view.findViewById(R.id.prof_image);

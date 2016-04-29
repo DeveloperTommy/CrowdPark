@@ -205,6 +205,8 @@ public class FindParkingTabFragment extends Fragment {
             }
         });
 
+        Toast.makeText(getActivity(), "Please swipe to another tab then back to refresh", Toast.LENGTH_SHORT).show();
+
         return view;
     }
 

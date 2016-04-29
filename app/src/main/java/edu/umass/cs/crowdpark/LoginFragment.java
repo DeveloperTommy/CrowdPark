@@ -194,14 +194,6 @@ public class LoginFragment extends Fragment {
                 progress.hide();
                 Intent intent = new Intent(getActivity(), DashboardActivity.class);
                 startActivity(intent);
-
-                /*Fragment profile = new DashboardFragment();
-                FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-                ft.replace(R.id.content_frame, profile);
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                ft.addToBackStack(null);
-                ft.commit();*/
-
             }
         }
 
