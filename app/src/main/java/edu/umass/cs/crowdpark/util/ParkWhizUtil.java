@@ -7,9 +7,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * Created by Tommy on 4/29/2016.
- */
 public class ParkWhizUtil {
 
     public static String getInfo(String urlName) {
