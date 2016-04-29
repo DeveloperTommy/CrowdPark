@@ -52,6 +52,7 @@ public class LoginFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
+        //Generate Twitter keys
         View view = inflater.inflate(R.layout.login_fragment, container, false);
         login = (ImageView)view.findViewById(R.id.login);
         pref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());

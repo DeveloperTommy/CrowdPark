@@ -5,8 +5,10 @@ package edu.umass.cs.crowdpark.dataInfo;
  */
 public class Garage extends ParkingType {
 
+    public String name = "Garage";
+
     public String getName() {
-        return null;
+        return name;
     }
 
 }

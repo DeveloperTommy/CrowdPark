@@ -12,6 +12,7 @@ public class CostComparator implements Comparator<String> {
         String[] left = TweetUtil.parseTweet(lhs);
         String[] right = TweetUtil.parseTweet(rhs);
 
+        //Compare by COST
         Double leftCost = Double.parseDouble(left[TweetUtil.COST]);
         Double rightCost = Double.parseDouble(right[TweetUtil.COST]);
 

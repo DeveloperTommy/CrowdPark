@@ -109,6 +109,7 @@ public class EventsTabFragment extends Fragment {
 
         Log.v(FIREBASE_TAG, "Firebase");
 
+        //Adding event information to Firebase
         queryRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String previousChild) {
@@ -160,6 +161,7 @@ public class EventsTabFragment extends Fragment {
         EventsTabAdapter adapter = new EventsTabAdapter(getActivity(), list);
         listView.setAdapter(adapter);
 
+        //Listener for clicking
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
@@ -173,55 +175,7 @@ public class EventsTabFragment extends Fragment {
         return view;
     }
 
-/*
-    private class GetParkingTask extends AsyncTask<String, String, List<String>> {
-        protected List<String> doInBackground(String... args) {
-
-            ArrayList<String> valid = new ArrayList<String>();
-
-            try {
-
-                ConfigurationBuilder builder = new ConfigurationBuilder();
-                builder.setOAuthConsumerKey(pref.getString("CONSUMER_KEY", ""));
-                builder.setOAuthConsumerSecret(pref.getString("CONSUMER_SECRET", ""));
-
-                accessToken = new AccessToken(pref.getString("ACCESS_TOKEN", ""), pref.getString("ACCESS_TOKEN_SECRET", ""));
-                Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
-
-                //Testing if querying works
-                QueryResult result = twitter.search(new twitter4j.Query("#crowdpark"));
-                List<twitter4j.Status> tweets = result.getTweets();
-
-                for (twitter4j.Status status : tweets) {
-                    Log.v("Hello", status.getText() + " Date: " + status.getCreatedAt());
-
-                    String[] curr = TweetUtil.parseTweet(status.getText());
-
-                    if (curr != null) {
-                        valid.add(status.getText());
-                    }
-
-                }
-                //End of querying
-            }
-            catch (TwitterException e) {
-                Log.e("Hello", e.toString());
-            }
-
-            return valid;
-        }
-*/
-        protected void onPostExecute(List<String> response) {
-
-            Log.v("Hello", "Valid Tweets: \n");
-
-            for (String tweet: response) {
-                Log.v("Hello", tweet);
-            }
-
-
-        }
-    }
+}
 
 
 

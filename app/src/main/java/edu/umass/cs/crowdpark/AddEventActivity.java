@@ -52,8 +52,10 @@ public class AddEventActivity extends AppCompatActivity {
 
                     EventInfo newEvent = new EventInfo(eventName, desc, latitude, longitude);
 
+                    //Database
                     myFirebaseRef.child("events").child(eventName).setValue(newEvent);
 
+                    //Go back to previous activity
                     finish();
 
                 }

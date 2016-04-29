@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         edit.putString("CONSUMER_SECRET", CONSUMER_SECRET);
 
 
-        //Location stuff
+        //Location permissions and grabbing
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (locationManager != null) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED

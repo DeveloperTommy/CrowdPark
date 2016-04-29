@@ -59,6 +59,7 @@ public class AddLocationTabFragment extends android.support.v4.app.Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle args) {
+        //Initialization
         View view = inflater.inflate(R.layout.add_location_tab_fragment, container, false);
         prof_name = (TextView)view.findViewById(R.id.prof_name);
         pref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
@@ -69,15 +70,17 @@ public class AddLocationTabFragment extends android.support.v4.app.Fragment {
         tweet.setOnClickListener(new Tweet());
         new LoadProfile().execute();
 
-         double latitude = Double.parseDouble(pref.getString("LATITUDE", ""));
-         double longitude = Double.parseDouble(pref.getString("LONGITUDE", ""));
+        //Location
+        double latitude = Double.parseDouble(pref.getString("LATITUDE", ""));
+        double longitude = Double.parseDouble(pref.getString("LONGITUDE", ""));
 
-         TextView latView = (TextView) view.findViewById(R.id.latText);
-         TextView lonView = (TextView) view.findViewById(R.id.lonText);
+        TextView latView = (TextView) view.findViewById(R.id.latText);
+        TextView lonView = (TextView) view.findViewById(R.id.lonText);
 
         latView.setText(latView.getText() + " " + latitude);
         lonView.setText(lonView.getText() + " " + longitude);
 
+        //Firebase ref
         myFirebaseRef = new Firebase("https://burning-fire-7390.firebaseio.com/");
 
         return view;
@@ -86,8 +89,7 @@ public class AddLocationTabFragment extends android.support.v4.app.Fragment {
 
         @Override
         public void onClick(View arg0) {
-            // TODO Auto-generated method stub
-
+            //Twitter access token generation
             SharedPreferences.Editor edit = pref.edit();
             edit.putString("ACCESS_TOKEN", "");
             edit.putString("ACCESS_TOKEN_SECRET", "");
@@ -142,6 +144,7 @@ public class AddLocationTabFragment extends android.support.v4.app.Fragment {
 
             Activity currActivity = getActivity();
 
+            //Grab information
             String name = ((EditText) currActivity.findViewById(R.id.name_text)).getText().toString();
             String spaces = ((EditText) currActivity.findViewById(R.id.spaces_text)).getText().toString();
             String cost = ((EditText) currActivity.findViewById(R.id.cost_text)).getText().toString();
@@ -152,12 +155,7 @@ public class AddLocationTabFragment extends android.support.v4.app.Fragment {
             String lat = pref.getString("LATITUDE", "");
             String lon = pref.getString("LONGITUDE", "");
 
-
-//            double lat = Double.parseDouble(pref.getString("LATITUDE", ""));
-//            double lon = Double.parseDouble(pref.getString("LONGITUDE", ""));
-
-
-            //tweetText = tweet_text.getText().toString();
+            //Create Tweet
             tweetText = TweetUtil.createTweet(name, spaces, cost, open, close, type, lat, lon);
             Log.v("Hello", "Created Tweet: " + tweet_text);
             progress.show();
@@ -224,6 +222,7 @@ public class AddLocationTabFragment extends android.support.v4.app.Fragment {
             return bitmap;
         }
         protected void onPostExecute(Bitmap image) {
+            //Loading profile information
             if (bitmap != null) {
                 Bitmap image_circle = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
 

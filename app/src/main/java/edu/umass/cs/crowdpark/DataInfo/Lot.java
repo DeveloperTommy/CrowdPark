@@ -5,7 +5,9 @@ package edu.umass.cs.crowdpark.dataInfo;
  */
 public class Lot extends ParkingType{
 
+    public String name = "Lot";
+
     public String getName() {
-        return null;
+        return name;
     }
 }

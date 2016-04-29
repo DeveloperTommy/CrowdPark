@@ -20,6 +20,7 @@ public class DistanceComparator implements Comparator<String> {
         double rightLat = Double.parseDouble(right[TweetUtil.LAT]);
         double rightLon = Double.parseDouble(right[TweetUtil.LON]);
 
+        //Compare by DIST
         Double leftDistance = LocationUtil.distance(leftLat, latitude, leftLon, longitude, 0, 0);
         Double rightDistance = LocationUtil.distance(rightLat, latitude, rightLon, longitude, 0, 0);
 

@@ -76,6 +76,7 @@ public class FindParkingTabFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_find_parking_tab, container, false);
 
+        //Grab last known coords
         pref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
 
         latitude = Double.parseDouble(pref.getString("LATITUDE", ""));
@@ -99,6 +100,7 @@ public class FindParkingTabFragment extends Fragment {
 
         list = new ArrayList<HashMap<String,String>>();
 
+        //Add row for default information
         HashMap<String,String> categories = new HashMap<String, String>();
         categories.put(FIRST_COLUMN, "Distance (Meters)");
         categories.put(SECOND_COLUMN, "Name");
@@ -128,7 +130,6 @@ public class FindParkingTabFragment extends Fragment {
         new GetParkingTask().execute();
 
         //Button instantiation for sorting
-
         Button distanceButton = (Button) view.findViewById(R.id.dist_button);
         Button costButton = (Button) view.findViewById(R.id.cost_button);
         Button spaceButton = (Button) view.findViewById(R.id.spaces_button);
@@ -248,7 +249,7 @@ public class FindParkingTabFragment extends Fragment {
 
             Log.v(TWEET_TAG, "Size of valid: " + valid.size());
 
-            //Merge sort by distance
+            //Merge sort by comparator
             Collections.sort(valid, comparator);
 
             return valid;

@@ -32,6 +32,7 @@ public class DashboardActivity extends AppCompatActivity {
         Button mapsButton = (Button) findViewById(R.id.locationButton);
 
 
+        //Use of Fragments as Views for quick swapping during runtime
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Find Parking"));
         tabLayout.addTab(tabLayout.newTab().setText("Add Location"));

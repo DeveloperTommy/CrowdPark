@@ -15,6 +15,7 @@ import java.util.HashMap;
  */
 public class EventsTabAdapter extends BaseAdapter {
 
+    //Framework for information retrieval
     public static final String FIRST_COLUMN="First";
     public static final String SECOND_COLUMN="Second";
     public static final String THIRD_COLUMN="Third";

@@ -15,6 +15,7 @@ import java.util.HashMap;
  */
 public class ParkingLocationAdapter extends BaseAdapter {
 
+    //Columns
     public static final String FIRST_COLUMN="First";
     public static final String SECOND_COLUMN="Second";
     public static final String THIRD_COLUMN="Third";
@@ -24,6 +25,7 @@ public class ParkingLocationAdapter extends BaseAdapter {
     public static final String SEVENTH_COLUMN="Seventh";
 
 
+    //Textviews for each column.
     public ArrayList<HashMap<String, String>> list;
     Activity activity;
     TextView txtFirst;
@@ -67,6 +69,7 @@ public class ParkingLocationAdapter extends BaseAdapter {
             txtThird = (TextView) convertView.findViewById(R.id.cost);
             txtFourth = (TextView) convertView.findViewById(R.id.space);
             txtFifth = (TextView) convertView.findViewById(R.id.time);
+            //Sixth and seventh are invisible to grab locations to compute distance
             txtSixth = (TextView) convertView.findViewById(R.id.lat);
             txtSeventh = (TextView) convertView.findViewById(R.id.lon);
         }
