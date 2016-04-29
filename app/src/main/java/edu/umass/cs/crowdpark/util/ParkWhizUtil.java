@@ -13,7 +13,7 @@ public class ParkWhizUtil {
         String result = "";
 
         try {
-            URL url = new URL("http://www.android.com/");
+            URL url = new URL(urlName);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
 
